@@ -161,7 +161,8 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
 
 // Post Edit Profile
 router.post('/edit/:id', ensureAuthenticated, (req, res) => {
-  
+  let errors = [];
+
   User.findById(req.params.id, function (err, user) {
     if (err) {
         req.flash('error', 'No account found');
@@ -191,15 +192,22 @@ router.post('/edit/:id', ensureAuthenticated, (req, res) => {
     user.phone = phone;
     user.zipCode = zipCode;
 
-    bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(password, salt, (err, hash) => {
-        if (err) throw err;
-        user.password = hash;
-        user.update(user, function (err) {
-          res.redirect('/dashboard');
-        });    
+    if(password){
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(password, salt, (err, hash) => {
+          if (err) throw err;
+          user.password = hash;
+          user.update(user, function (err) {
+            res.redirect('/dashboard');
+          });    
+        });
       });
-    });
+    }
+    else{
+      user.update(user, function (err) {
+        res.redirect('/dashboard');
+      }); 
+    }
   });
 });
 
