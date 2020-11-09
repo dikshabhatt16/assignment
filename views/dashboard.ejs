@@ -1,0 +1,29 @@
+<div style="float:right">
+    <a href="/users/edit/<%= user.id %>" class="btn btn-primary">Edit Profile</a>
+    <a href="/users/logout" class="btn btn-secondary">Logout</a>
+</div>
+<h1 class="mt-4">Dashboard</h1>
+<p class="lead mb-3">Welcome <%= user.name %></p>
+<input type="hidden" name=userId value=<%= user.email %>>
+<h1>List of Nearest Users</h1>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">ZipCode</th>
+      </tr>
+    </thead>
+    <tbody>
+        <% nearUsers.forEach(function(user){ %>
+            <tr>
+                <td><%= user.name %> </td> 
+                <td><%= user.email %> </td>
+                <td><%= user.zipCode %> </td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+
+</br></br></br>
